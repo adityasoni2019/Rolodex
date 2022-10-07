@@ -3,15 +3,20 @@ import './App.css';
 // this I think is react. 
 
 import {CardList} from './components/card-list/card-list.component';
+import './components/card-list/card-list.styles.css'
 
+import {SearchBox} from './search-box/search-box.component.jsx'
 class App extends Component{
 
   constructor(){
     super();
 
     this.state = {
-      monsters: []
+      monsters: [],
+      searchField: ''
     };
+    
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount(){
@@ -20,28 +25,39 @@ class App extends Component{
       .then(user => this.setState({monsters: user}));
   }
 
-  render(){
-    return (
-      <div className="App">
+  handleChange = e =>{
 
-      {/* Cardlist is basically a function */}
-      {/* The below code is similar to calling a function. */}
-      {/* We're essentially calling a function. Analogy ofc */}
-      <CardList name_prop = "This is a prop">
-		
-    {/* these 3 H1s are props' children */}
-    {/* props.name_prop = this is a prop */}
-    {/* props.children = array(34, 35, 36)  */}
-    {/* props.children = + all the stuff from line 39*/}
-
-    <h1> Yihua's CardList </h1>
-    <h1> Yihua's CardList </h1>
-    <h1> Yihua's CardList </h1>
     
-    {
-          this.state.monsters.map(monster => <h1 key = {monster.self_defined_id}> {monster.name}</h1>)
-        }
-</CardList>
+    this.setState({searchField: e.target.value});
+    
+   
+  }
+
+
+  render(){
+
+    const{monsters, searchField} = this.state; 
+      // this ^ is equivalent of writing 
+      // const monsters = this.state.monsters;
+      // const searchField = this.state.searchField;
+       
+    const filteredMonsters = monsters.filter(monster => monster.name.toLowerCase().includes(searchField.toLowerCase()));
+    
+    return (  
+      <div className="App">
+      {/* <input type = 'search' placeholder = 'search monsters'   
+      onChange={ e=> this.setState({searchField: e.target.value}, ()=> console.log(this.state))}
+      /> */}
+
+      <SearchBox
+        placeholder='search monster'
+        handleChange= {this.handleChange}
+      />
+      
+      <CardList monsters_prop  = {filteredMonsters}>
+        {/* monsters_prop: [] */}
+      </CardList> 
+
 
         {/* And this "function" will basically return whatever's there in the definition of it. */}
       </div>
