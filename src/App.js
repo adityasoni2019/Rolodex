@@ -49,6 +49,8 @@ class App extends Component{
       onChange={ e=> this.setState({searchField: e.target.value}, ()=> console.log(this.state))}
       /> */}
 
+      <h1>Aliens</h1>
+
       <SearchBox
         placeholder='search monster'
         handleChange= {this.handleChange}
